@@ -1,0 +1,61 @@
+//table of library user
+create table library_user(
+    id int not null AUTO_INCREMENT PRIMARY KEY,
+    name varchar(20),
+    email varchar(25),
+    passwords varchar(255),
+    phone int,
+    gender varchar(10),
+    isDeleted BINARY,
+    isActive BINARY,
+    createdBy datetime DEFAULT timestamp,
+    updatedBy datetime DEFAULT timestamp)
+  
+
+// alter table permission to add createdAt and updatedAt
+
+alter table permission ADD createdAt  datetime not null DEFAULT CURRENT_TIMESTAMP AFTER name,
+ADD updatedAt datetime  not null DEFAULT CURRENT_TIMESTAMP;
+
+//user_permission
+CREATE table User_permission(
+    id int not null AUTO_INCREMENT PRIMARY key,
+    user_id int,
+    permission_id int);
+
+//requestedbook table
+create table requestedBook(
+    id int not null AUTO_INCREMENT PRIMARY KEY,
+    book_name varchar(30),
+    user_id int ,
+    createdAt datetime DEFAULT CURRENT_TIMESTAMP,
+	updatedAt datetime DEFAULT CURRENT_TIMESTAMP);
+
+//join table
+select books.name,library_user.id,requestedbook.book_name,requestedbook.user_id
+from books
+left join requestedbook
+on books.id = requestedbook.id
+left join library_user
+on requestedbook.id = library_user.id
+WHERE library_user.id = requestedbook.user_id;
+
+
+//search book name with intial letter
+select name from books where name like 'M%';
+
+//allotment table
+create tale allotment_of_books(
+    id int not null AUTO_INCREMENT PRIMARY KEY,
+    book_id int,
+    book_name varchar(50),
+    user_id int,
+    bookStatus boolean,
+    issuedOn date,
+    issuedTo int,
+    returningDate date,
+    returnOn date,
+    createdBy int,
+    updatedBy int,
+    createdAt datetime DEFAULT CURRENT_TIMESTAMP,
+    updatedAt datetime DEFAULT CURRENT_TIMESTAMP
